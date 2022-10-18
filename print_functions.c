@@ -53,7 +53,7 @@ int print_str(va_list args)
 int print_unsigned(va_list args)
 {
 	int n = va_arg(arg, unsigned int);
-	int m, rem;
+
 	int divisor = 1; /*divisor to print the first digit*/
 	int i; /*counter*/
 
