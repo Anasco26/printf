@@ -1,27 +1,16 @@
 #include "main.h"
-#include <stdio.h>
-#include <unistd.h>
-
-/**
- * _putchar - writes the character c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
 
 /**
  * print_char - fn to print char
  * @args: char argument passed
+ *
+ * Return: No. of printed chars
  */
 
-void print_char(va_list args)
+int print_char(va_list args)
 {
-	return (_putchar(va_arg(args, int)));
+	char c = va_arg(args, int);
+	return (_putchar(c));
 }
 
 /**
@@ -37,22 +26,32 @@ int print_str(va_list args)
 
 	if (str == NULL)
 		str = "(nil)";
-	else if (str == '\0')
-		return (-1);
-	for (n = 0; str[n]; n++)
+	for (n = 0; str[n] != '\0'; n++)
 		_putchar(str[n]);
 	return (n);
 }
 
 /**
- * print unsigned
+ * print_percent - Prints a percent sign
+ * @args: Lista of arguments
+ * Return: No. of sign printed
+ */
+
+int print_percent(va_list args)
+{
+	UNUSED(args);
+	return (write(1, "%%", 1));
+}
+
+/**
+ * print unsigned - Prints an unsigned int
  * @args: int arguement
- * Return: unsigned int count 
+ * Return: unsigned int count
  */
 
 int print_unsigned(va_list args)
 {
-	int n = va_arg(arg, unsigned int);
+	int n = va_arg(args, unsigned int);
 
 	int divisor = 1; /*divisor to print the first digit*/
 	int i; /*counter*/
@@ -65,5 +64,5 @@ int print_unsigned(va_list args)
 		n = n % divisor;
 		divisor = divisor / 10;
 	}
-	return (i)
+	return (i);
 }
