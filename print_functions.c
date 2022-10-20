@@ -68,7 +68,7 @@ int print_str(va_list args, char buffer[],
 		else
 		{
 			for (i = width - n; i > 0; i--)
-				_putchar(" ");
+				write(1, " ", 1);
 			write(1, &str[0], n);
 			return (width);
 		}
@@ -145,32 +145,46 @@ int print_int(va_list args, char buffer[],
 }
 
 /**
- * print unsigned - Prints an unsigned int
- * @args: int arguement
+ * print_binary - Prints binary number
+ * @args: Lista of arguments
  * @buffer: Buffer array to handle print
  * @flags:  Calculates active flags
- * @width: Width
+ * @width: get width.
  * @precision: Precision specification
  * @size: Size specifier
- *
- * Return: unsigned int count
+ * Return: Numbers of char printed.
  */
-
-int print_unsigned(va_list args, char buffer[],
+int print_binary(va_list args, char buffer[],
 		int flags, int width, int precision, int size)
 {
-	int n = va_arg(args, unsigned int);
+	unsigned int n, m, i, sum;
+	unsigned int a[32];
+	int count;
 
-	int divisor = 1; /*divisor to print the first digit*/
-	int i; /*counter*/
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
 
-	while (n / divisor > 9)
-		divisor *= 10;
-	while (divisor != 0)
+	n = va_arg(args, unsigned int);
+	m = 2147483648;
+	a[0] = n / m;
+	for (i = 1; i < 32; i++)
 	{
-		i = i + _putchar(n / divisor + '0');
-		n = n % divisor;
-		divisor = divisor / 10;
+		m /= 2;
+		a[i] = (n / m) % 2;
 	}
-	return (i);
+	for (i = 0, sum = 0, count = 0; i < 32; i++)
+	{
+		sum += a[i];
+		if (sum || i == 31)
+		{
+			char z = '0' + a[i];
+
+			write(1, &z, 1);
+			count++;
+		}
+	}
+	return (count);
 }
