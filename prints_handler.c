@@ -14,6 +14,7 @@ int handle_print(const char *fmt, int *ind, va_list list)
 
 	fmt_t fmt_types[] = {
 		{'c', print_char}, {'s', print_str}, {'%', print_percent},
+		{'i', print_int}, {'d', print_int}, {'\0', NULL}
 	};
 	for (i = 0; fmt_types[i].fmt != '\0'; i++)
 		if (fmt[*ind] == fmt_types[i].fmt)
@@ -24,6 +25,8 @@ int handle_print(const char *fmt, int *ind, va_list list)
 		if (fmt[*ind] == '\0')
 			return (-1);
 		unknow_len += write(1, "%%", 1);
+		if (fmt[*ind - 1] == ' ')
+			unknow_len += write(1, " ", 1);
 
 		unknow_len += write(1, &fmt[*ind], 1);
 		return (unknow_len);

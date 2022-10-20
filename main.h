@@ -6,8 +6,15 @@
 
 #define BUFF_SIZE 1024
 #define UNUSED(x) (void)(x)
+
 #define S_LONG 2
 #define S_SHORT 1
+
+#define F_MINUS 1
+#define F_PLUS 2
+#define F_ZERO 4
+#define F_HASH 8
+#define F_SPACE 16
 
 /**
  * struct fmt - struct to choose the right function depending
@@ -50,6 +57,7 @@ long int convert_size_number(long int num, int size);
 long int convert_size_unsgnd(unsigned long int num, int size);
 
 int _putchar(char c);
+void print_buffer(char buffer[], int *buff_ind);
 
 /* Help functions */
 int get_flags(const char *format, int *i);
