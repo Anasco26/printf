@@ -3,44 +3,101 @@
 /**
  * print_char - fn to print char
  * @args: char argument passed
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: Width
+ * @precision: Precision specification
+ * @size: Size specifier
  *
  * Return: No. of printed chars
  */
 
-int print_char(va_list args)
+int print_char(va_list args, char buffer[],
+		int flags, int width, int precision, int size)
 {
 	char c = va_arg(args, int);
 
-	return (_putchar(c));
+	return (handle_write_char(c, buffer, flags, width, precision, size));
 }
 
 /**
  * print_str - fn to print string
  * @args: string argument
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: Width
+ * @precision: Precision specification
+ * @size: Size specifier
+ *
  * Return: char count
  */
 
-int print_str(va_list args)
+int print_str(va_list args, char buffer[],
+		int flags, int width, int precision, int size)
 {
-	int n;
-	char *str = va_arg(args, char*);
+	int n = 0, i;
+	char *str = va_arg(args, char *);
 
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
 	if (str == NULL)
-		str = "(nil)";
-	for (n = 0; str[n] != '\0'; n++)
-		_putchar(str[n]);
-	return (n);
+	{
+		str = "(null)";
+		if (precision >= 6)
+			str = "      ";
+	}
+
+	while (str[n] != '\0')
+		n++;
+
+	if (precision >= 0 && precision < n)
+		n = precision;
+
+	if (width > n)
+	{
+		if (flags & F_MINUS)
+		{
+			write(1, &str[0], n);
+			for (i = width - n; i > 0; i--)
+				write(1, " ", 1);
+			return (width);
+		}
+		else
+		{
+			for (i = width - n; i > 0; i--)
+				_putchar(" ");
+			write(1, &str[0], n);
+			return (width);
+		}
+	}
+
+	return (write(1, str, n));
 }
 
 /**
  * print_percent - Prints a percent sign
  * @args: Lista of arguments
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: Width
+ * @precision: Precision specification
+ * @size: Size specifier
+ *
  * Return: No. of sign printed
  */
 
-int print_percent(va_list args)
+int print_percent(va_list args, char buffer[],
+		int flags, int width, int precision, int size)
 {
 	UNUSED(args);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
 	return (write(1, "%%", 1));
 }
 
@@ -90,10 +147,17 @@ int print_int(va_list args, char buffer[],
 /**
  * print unsigned - Prints an unsigned int
  * @args: int arguement
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: Width
+ * @precision: Precision specification
+ * @size: Size specifier
+ *
  * Return: unsigned int count
  */
 
-int print_unsigned(va_list args)
+int print_unsigned(va_list args, char buffer[],
+		int flags, int width, int precision, int size)
 {
 	int n = va_arg(args, unsigned int);
 

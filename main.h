@@ -66,7 +66,7 @@ int get_precision(const char *format, int *i, va_list list);
 int get_size(const char *format, int *i);
 
 /* Printf specifiers functions */
-int print_char(va_list types, char buffer[],
+int print_char(va_list args, char buffer[],
 		int flags, int width, int precision, int size);
 int print_str(va_list args, char buffer[],
 		int flags, int width, int precision, int size);
